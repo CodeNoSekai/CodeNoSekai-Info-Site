@@ -3,3 +3,5 @@ package-lock.json
 ddos*
 *ddos*
 ddos.js
+init_db.py
+admins.py
