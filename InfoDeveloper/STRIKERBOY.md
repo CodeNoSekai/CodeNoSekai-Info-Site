@@ -9,6 +9,10 @@
 
 
 ---
+<a href="https://github.com/BOTMASTER350"><img src="https://github.com/BOTMASTER350.png" width="250" height="250" alt="STRIKERBOY"/></a>
+[![STRIKERBOY's GitHub stats](https://github-readme-stats.vercel.app/api?username=BOTMASTER350&show_icons=true&theme=radical)](https://github.com/BOTMASTER350)
+
+---
 
 
 ## 📞 Connect With Me
