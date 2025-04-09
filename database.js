@@ -1,5 +1,6 @@
 const { Pool } = require('pg');
 require('dotenv').config();
+const crypto = require('crypto');
 
 // Configuration de la connexion à PostgreSQL
 const pool = new Pool({
@@ -124,11 +125,32 @@ async function updateApplicantStatus(id, status) {
   }
 }
 
+// admin auth functions
+// Fonction pour authentifier un admin
+async function authenticateAdmin(username, password) {
+  const client = await pool.connect();
+  try {
+    // Nous comparons avec le mot de passe haché stocké en base de données
+    // Dans un environnement de production, vous utiliseriez bcrypt.compare()
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+    
+    const result = await client.query(
+      'SELECT id, username FROM admins WHERE username = $1 AND password = $2',
+      [username, hashedPassword]
+    );
+    
+    return result.rows[0] || null;
+  } finally {
+    client.release();
+  }
+}
+
 module.exports = {
   initDatabase,
   addApplicant,
   getAllApplicants,
   getApplicantById,
   checkExistingEmail,
-  updateApplicantStatus
+  updateApplicantStatus,
+  authenticateAdmin // New functions by Famous-Tech
 };

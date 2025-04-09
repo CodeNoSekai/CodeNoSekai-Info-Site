@@ -175,6 +175,36 @@ app.get('/api/applicants', async (req, res) => {
     }
 });
 
+// Route pour l'authentification admin
+app.post('/api/admin/login', async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      
+      // Validation des données requises
+      if (!username || !password) {
+        return res.status(400).json({ error: 'Le nom d\'utilisateur et le mot de passe sont requis' });
+      }
+      
+      // Vérifier les identifiants dans la base de données
+      const admin = await db.authenticateAdmin(username, password);
+      
+      if (!admin) {
+        return res.status(401).json({ error: 'Identifiants invalides' });
+      }
+      
+      // Retourner un jeton d'authentification (vous pourriez utiliser JWT ici)
+      res.json({ 
+        success: true, 
+        message: 'Authentification réussie',
+        admin: { id: admin.id, username: admin.username }
+        // JWT token could be added here
+      });
+    } catch (error) {
+      console.error('Erreur lors de l\'authentification:', error);
+      res.status(500).json({ error: 'Erreur serveur lors de l\'authentification' });
+    }
+  });
+
 // Initialize the database and start the server (French: Initialisation de la base de données et démarrage du serveur)
 db.initDatabase()
     .then(() => {

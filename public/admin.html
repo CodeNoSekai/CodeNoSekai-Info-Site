@@ -608,21 +608,45 @@
             }
         }
         
-        // Handle login
-        function handleLogin() {
-            logToConsole(`Login attempt with username: ${username.value}`, 'request');
-            
-            if (username.value === ADMIN_USERNAME && password.value === ADMIN_PASSWORD) {
-                logToConsole('Login successful', 'response');
-                localStorage.setItem('isAuthenticated', 'true');
-                showDashboard();
-                loadApplicants();
-            } else {
-                logToConsole('Login failed: Invalid credentials', 'error');
-                loginError.style.display = 'block';
-            }
-        }
+        // Remplacer la fonction handleLogin actuelle par celle-ci
+async function handleLogin() {
+    logToConsole(`Login attempt with username: ${username.value}`, 'request');
+    loginError.style.display = 'none';
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username.value,
+                password: password.value
+            })
+        });
         
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            logToConsole('Login successful', 'response');
+            localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('adminUsername', data.admin.username);
+            localStorage.setItem('adminId', data.admin.id);
+            showDashboard();
+            loadApplicants();
+        } else {
+            logToConsole(`Login failed: ${data.error}`, 'error');
+            loginError.textContent = data.error || 'Invalid username or password';
+            loginError.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        logToConsole(`Error during login: ${error.message}`, 'error');
+        loginError.textContent = 'Server error. Please try again.';
+        loginError.style.display = 'block';
+    }
+}
+
         // Handle logout
         function handleLogout() {
             logToConsole('User logged out', 'info');
