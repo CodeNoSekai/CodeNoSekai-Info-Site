@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const dns = require('dns');
 require('dotenv').config();
+
+// Configure public DNS servers for Atlas SRV resolution
+try {
+  dns.setServers([
+    '1.1.1.1',
+    '1.0.0.1',
+    '8.8.8.8',
+    '8.8.4.4'
+  ]);
+  dns.setDefaultResultOrder('ipv4first');
+} catch (err) {
+  // Ignore in environments where setting DNS is restricted
+}
 
 // Mongoose Schemas
 const applicantSchema = new mongoose.Schema({
