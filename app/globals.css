@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #090a0f;
+  --foreground: #f3f4f6;
+  --card: #11131a;
+  --border: #272c3d;
+  --accent-green: #22c55e;
+  --accent-cyan: #06b6d4;
+  --accent-purple: #a855f7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #272c3d;
+  border-radius: 0px;
+  border: 1px solid #3b435a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+}
+
+/* Brutalist Button Utility */
+.btn-brutal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem;
+  background-color: #f3f4f6;
+  color: #090a0f;
+  border: 2px solid #ffffff;
+  box-shadow: 4px 4px 0px 0px #22c55e;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px #22c55e;
+}
+
+.btn-brutal:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #22c55e;
+}
+
+.btn-brutal-outline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 4px 4px 0px 0px #ffffff;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-brutal-outline:hover {
+  background-color: #ffffff;
+  color: #090a0f;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px #ffffff;
+}
+
+.btn-brutal-outline:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #ffffff;
+}
+
+/* Brutalist Card Frame */
+.brutal-card {
+  background-color: #11131a;
+  border: 2px solid #272c3d;
+  box-shadow: 4px 4px 0px 0px #1e2230;
+  transition: all 0.2s ease;
+}
+
+.brutal-card:hover {
+  border-color: #ffffff;
+  box-shadow: 6px 6px 0px 0px #22c55e;
+  transform: translateY(-2px);
+}
+
+/* Brutalist Badge */
+.brutal-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid currentColor;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Subtle Matrix/Grid Noise */
+.bg-grid-subtle {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
