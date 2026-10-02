@@ -228,6 +228,8 @@ img {
     width: 32px;
     height: 32px;
     margin-right: 10px;
+    border-radius: var(--border-radius-sm);
+    object-fit: cover;
 }
 
 .navbar .logo h1 {
@@ -319,6 +321,7 @@ img {
     position: relative;
     background: linear-gradient(135deg, var(--accent-color), rgba(56, 191, 248, 0.3));
     padding: 2px;
+    object-fit: cover;
 }
 
 .hero-logo img {

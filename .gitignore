@@ -5,3 +5,4 @@ ddos*
 ddos.js
 init_db.py
 admins.py
+.env

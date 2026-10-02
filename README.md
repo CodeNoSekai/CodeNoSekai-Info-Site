@@ -10,8 +10,8 @@ For Now Please add your **name.md** file in **/InfoDeveloper** folder <br>
   <h1 align="center">💫 OWNER 💫</h1>
 </p>
 
-<a href="https://github.com/salmanytofficial"><img src="https://github.com/salmanytofficial.png" width="250" height="250" alt="Salman Ahmad"/></a>
-[![Salman Ahmad's GitHub stats](https://github-readme-stats.vercel.app/api?username=salmanytofficial&show_icons=true&theme=radical)](https://github.com/salmanytofficial)
+<a href="https://github.com/ahmmikun"><img src="https://github.com/ahmmikun.png" width="250" height="250" alt="Salman Ahmad"/></a>
+[![Salman Ahmad's GitHub stats](https://github-readme-stats.vercel.app/api?username=ahmmikun&show_icons=true&theme=radical)](https://github.com/ahmmikun)
 
 ---
 <a href="https://github.com/Xcelsama"><img src="https://github.com/Xcelsama.png" width="250" height="250" alt="Xcelsama"/></a>
