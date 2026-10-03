@@ -4,7 +4,13 @@ import { Shield, ExternalLink, User } from 'lucide-react';
 import GithubIcon from '@/components/ui/GithubIcon';
 import { ADMINS, Member } from '@/data/members';
 
-export default function AdminsGrid() {
+interface AdminsGridProps {
+  admins?: Member[];
+}
+
+export default function AdminsGrid({ admins }: AdminsGridProps = {}) {
+  const displayAdmins = admins && admins.length > 0 ? admins : ADMINS;
+
   return (
     <section id="admins" className="py-16 border-b-2 border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +32,7 @@ export default function AdminsGrid() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {ADMINS.map((admin, idx) => (
+          {displayAdmins.map((admin, idx) => (
             <AdminCard key={idx} admin={admin} />
           ))}
         </div>

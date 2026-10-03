@@ -6,12 +6,18 @@ import { Search, ExternalLink, User, Filter, Users } from 'lucide-react';
 import GithubIcon from '@/components/ui/GithubIcon';
 import { MEMBERS, Member } from '@/data/members';
 
-export default function MembersDirectory() {
+interface MembersDirectoryProps {
+  members?: Member[];
+}
+
+export default function MembersDirectory({ members }: MembersDirectoryProps = {}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterVisibility, setFilterVisibility] = useState<'all' | 'public' | 'private'>('all');
 
+  const sourceMembers = members && members.length > 0 ? members : MEMBERS;
+
   const filteredMembers = useMemo(() => {
-    return MEMBERS.filter((m) => {
+    return sourceMembers.filter((m) => {
       const matchesSearch =
         m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (m.username && m.username.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -22,7 +28,7 @@ export default function MembersDirectory() {
 
       return matchesSearch && matchesFilter;
     });
-  }, [searchQuery, filterVisibility]);
+  }, [sourceMembers, searchQuery, filterVisibility]);
 
   return (
     <section id="members" className="py-16 md:py-24 border-b-2 border-border bg-surface/20">

@@ -11,14 +11,39 @@ import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
 import { ArrowRight, Code, Terminal, Sparkles, CheckCircle2 } from 'lucide-react';
 import { getCodeNoSekaiRepos, getCodeNoSekaiOrgInfo } from '@/lib/github';
+import { getAllMembers } from '@/lib/db';
+import type { Member } from '@/data/members';
 
 export const revalidate = 3600; // Revalidate page every hour
 
 export default async function HomePage() {
-  const [repos, orgInfo] = await Promise.all([
+  const [repos, orgInfo, dbMembers] = await Promise.all([
     getCodeNoSekaiRepos(),
     getCodeNoSekaiOrgInfo(),
+    getAllMembers().catch(() => []),
   ]);
+
+  const dynamicAdmins: Member[] = dbMembers
+    .filter((m) => m.role === 'admin')
+    .map((m) => ({
+      name: m.name,
+      username: m.username,
+      role: 'admin',
+      title: m.title,
+      visibility: m.visibility as 'public' | 'private',
+      bio: m.bio,
+    }));
+
+  const dynamicMembers: Member[] = dbMembers
+    .filter((m) => m.role === 'member')
+    .map((m) => ({
+      name: m.name,
+      username: m.username,
+      role: 'member',
+      title: m.title,
+      visibility: m.visibility as 'public' | 'private',
+      bio: m.bio,
+    }));
 
   return (
     <main className="min-h-screen flex flex-col bg-background selection:bg-accent-green selection:text-black">
@@ -26,7 +51,7 @@ export default async function HomePage() {
 
       <Hero />
 
-      <StatsBar repoCount={repos.length} totalMembers={35} />
+      <StatsBar repoCount={repos.length} totalMembers={dbMembers.length > 0 ? dbMembers.length : 35} />
 
       {/* About Section */}
       <section id="about" className="py-16 md:py-24 border-b-2 border-border bg-surface/10">
@@ -96,10 +121,10 @@ export default async function HomePage() {
       <FounderCard />
 
       {/* Leadership: Admins (7 Owners) */}
-      <AdminsGrid />
+      <AdminsGrid admins={dynamicAdmins.length > 0 ? dynamicAdmins : undefined} />
 
       {/* Full Community Roster */}
-      <MembersDirectory />
+      <MembersDirectory members={dynamicMembers.length > 0 ? dynamicMembers : undefined} />
 
       {/* GitHub Repositories */}
       <ProjectsSection repositories={repos} />
