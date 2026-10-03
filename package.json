@@ -9,15 +9,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Famous-Tech/Dev-Lounge.git"
+    "url": "git+https://github.com/CodeNoSekai/CodeNoSekai-Info-Site.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "codenosekai",
+    "developer-community",
+    "open-source",
+    "nextjs",
+    "typescript",
+    "tailwind"
+  ],
+  "author": "Salman Ahmad (https://github.com/ahmmikun)",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Famous-Tech/Dev-Lounge/issues"
+    "url": "https://github.com/CodeNoSekai/CodeNoSekai-Info-Site/issues"
   },
-  "homepage": "https://github.com/Famous-Tech/Dev-Lounge#readme",
+  "homepage": "https://github.com/CodeNoSekai/CodeNoSekai-Info-Site#readme",
   "dependencies": {
     "@types/node": "^26.6.4",
     "@types/react": "^18.3.18",
