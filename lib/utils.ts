@@ -19,3 +19,14 @@ export function formatDate(dateString: string | Date): string {
     return 'Recent';
   }
 }
+
+export type ApplicantStatus = 'pending' | 'approved' | 'declined';
+
+export function normalizeStatus(status?: string): ApplicantStatus {
+  if (!status) return 'pending';
+  const s = status.toLowerCase().trim();
+  if (s === 'approved') return 'approved';
+  if (s === 'declined' || s === 'rejected') return 'declined';
+  return 'pending';
+}
+

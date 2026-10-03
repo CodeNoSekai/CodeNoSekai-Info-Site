@@ -1,6 +1,26 @@
 import { FALLBACK_REPOSITORIES, RepositoryData } from '@/data/community';
+import { getAllProjects } from '@/lib/db';
 
 export async function getCodeNoSekaiRepos(): Promise<RepositoryData[]> {
+  let dbProjects: RepositoryData[] = [];
+  try {
+    const custom = await getAllProjects();
+    if (Array.isArray(custom)) {
+      dbProjects = custom.map((p) => ({
+        name: p.name,
+        description: p.description,
+        url: p.url,
+        stars: p.stars || 0,
+        forks: p.forks || 0,
+        language: p.language || 'TypeScript',
+        updatedAt: p.updatedAt || new Date().toISOString(),
+        isArchived: Boolean(p.isArchived),
+      }));
+    }
+  } catch (e) {
+    // fallback
+  }
+
   try {
     const headers: Record<string, string> = {
       Accept: 'application/vnd.github.v3+json',
@@ -17,16 +37,16 @@ export async function getCodeNoSekaiRepos(): Promise<RepositoryData[]> {
     });
 
     if (!res.ok) {
-      console.warn(`[GitHub API] Returned ${res.status}: ${res.statusText}. Using fallback data.`);
-      return FALLBACK_REPOSITORIES;
+      console.warn(`[GitHub API] Returned ${res.status}: ${res.statusText}. Using database/fallback data.`);
+      return dbProjects.length > 0 ? dbProjects : FALLBACK_REPOSITORIES;
     }
 
     const data = await res.json();
     if (!Array.isArray(data)) {
-      return FALLBACK_REPOSITORIES;
+      return dbProjects.length > 0 ? dbProjects : FALLBACK_REPOSITORIES;
     }
 
-    const repos: RepositoryData[] = data
+    const gitHubRepos: RepositoryData[] = data
       .filter((repo: any) => !repo.name.startsWith('.') && repo.name !== '.github')
       .map((repo: any) => ({
         name: repo.name,
@@ -39,10 +59,23 @@ export async function getCodeNoSekaiRepos(): Promise<RepositoryData[]> {
         isArchived: Boolean(repo.archived),
       }));
 
-    return repos.length > 0 ? repos : FALLBACK_REPOSITORIES;
+    // Merge custom database projects with GitHub repos (avoiding duplicates)
+    const combined = [...dbProjects];
+    for (const gh of gitHubRepos) {
+      const exists = combined.some(
+        (p) =>
+          p.name.toLowerCase() === gh.name.toLowerCase() ||
+          p.url.toLowerCase() === gh.url.toLowerCase()
+      );
+      if (!exists) {
+        combined.push(gh);
+      }
+    }
+
+    return combined.length > 0 ? combined : FALLBACK_REPOSITORIES;
   } catch (error) {
     console.error('[GitHub API] Failed to fetch repos:', error);
-    return FALLBACK_REPOSITORIES;
+    return dbProjects.length > 0 ? dbProjects : FALLBACK_REPOSITORIES;
   }
 }
 
